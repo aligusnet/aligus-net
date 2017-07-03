@@ -1,3 +1,4 @@
+@import "font-awesome"
 
 // colors
 $nav-background-color: #424242
@@ -6,6 +7,12 @@ $nav-font-color-hover: #DDDDDD
 
 // fonts
 $font-stack: 'Roboto', sans-serif
+
+=transition($time)
+  -webkit-transition: all ease-in-out $time
+  -moz-transition: all ease-in-out $time
+  -o-transition: all ease-in-out $time
+  transition: all ease-in-out $time
 
 body
   color: black
@@ -24,12 +31,17 @@ header.global
   color: white
   width: 100%
   margin: 0
+  display: flex
+  flex-direction: row
+
+  div.mobile-menu-icon
+    display: none
 
   nav
     display: flex
     flex-direction: row
     text-align: right
-    padding: 12px 24px 12px 48px
+    padding: 12px 24px 12px 0px
 
     a
       color: $nav-font-color
@@ -44,6 +56,11 @@ header.global
   div.logo
     flex-grow: 2
     text-align: left
+    padding: 12px 0px 12px 48px
+    a
+      color: $nav-font-color
+      text-decoration: none
+      font-size: 18px
 
 footer
   border-top: solid 2px black
@@ -64,3 +81,21 @@ div.info
   color: #555
   font-size: 14px
   font-style: italic
+
+
+@media screen and (max-width: 550px)
+  header.global
+    nav
+      flex-direction: column
+      max-height: 20px
+      overflow: hidden
+      +transition(0.4s)
+      &.active
+        max-height: 360px
+      div
+        padding-bottom: 12px
+
+    div.mobile-menu-icon
+      display: block
+      cursor: pointer
+      padding-bottom: 20px
