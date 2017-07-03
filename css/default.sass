@@ -1,0 +1,60 @@
+$nav-background-color: #424242
+$nav-font-color: #BBBBBB
+$nav-font-color-hover: #DDDDDD
+
+body
+  color: black
+  font-size: 16px
+  margin: 0px
+
+main
+  width: 90%
+  max-width: 960px
+  margin: auto
+
+header.global
+  margin-bottom: 30px
+  background-color: $nav-background-color
+  color: white
+  width: 100%
+  margin: 0
+
+  nav
+    display: flex
+    flex-direction: row
+    text-align: right
+    padding: 12px 24px 12px 48px
+
+    a
+      color: $nav-font-color
+      font-size: 18px
+      font-weight: bold
+      margin-left: 12px
+      text-decoration: none
+      text-transform: uppercase
+      &:hover
+        color: $nav-font-color-hover
+
+  div.logo
+    flex-grow: 2
+    text-align: left
+
+footer
+  border-top: solid 2px black
+  color: #555
+  font-size: 12px
+  margin-top: 30px
+  padding: 12px 24px 12px 0px
+  text-align: right
+
+h1
+  font-size: 24px
+
+
+h2
+  font-size: 20px
+
+div.info
+  color: #555
+  font-size: 14px
+  font-style: italic
