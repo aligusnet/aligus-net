@@ -25,7 +25,15 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    match (fromList ["about.rst", "contact.markdown"]) $ do
+    match "astro-ui/public/assets/js/elm.js" $ do
+        route $ constRoute "js/astro.js"
+        compile copyFileCompiler
+
+    match "astro-ui/public/assets/js/port.js" $ do
+        route $ constRoute "js/astro-port.js"
+        compile copyFileCompiler
+
+    match (fromList ["about.rst"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -67,6 +75,9 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" indexCtx
                 >>= relativizeUrls
 
+
+    match "astro.html" $ contentPage
+
     match "templates/*" $ compile templateBodyCompiler
 
 
@@ -75,3 +86,31 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+
+--------------------------------------------------------------------------------
+listContextWith :: Context String -> String -> Context a
+listContextWith ctx s = listField s ctx $ do
+    identifier <- getUnderlying
+    metadata <- getMetadata identifier
+    let metas = maybe [] (map trim . splitAll ",") $ lookupString s metadata
+    return $ map (\x -> Item (fromFilePath x) x) metas
+
+
+--------------------------------------------------------------------------------
+listContext :: String -> Context a
+listContext = listContextWith defaultContext
+
+
+--------------------------------------------------------------------------------
+contentPage :: Rules()
+contentPage = do
+    route idRoute
+    compile $ do
+        let ctx =
+                listContext "scripts"           `mappend`
+                defaultContext
+        getResourceBody
+            >>= applyAsTemplate ctx
+            >>= loadAndApplyTemplate "templates/default.html" ctx
+            >>= relativizeUrls

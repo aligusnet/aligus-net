@@ -1,0 +1,108 @@
+@import "datetimepicker";
+
+#astro {
+	font-size: 15px;
+	//font-family: sans-serif;
+/*************************
+Astro Container
+*************************/
+.astro-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.astro-item {
+	margin-right: 35px;
+}
+.astro-list-name {
+	text-align: center;
+}
+/*************************
+Properties
+*************************/
+.property-row {
+	display: flex;
+	flex-direction: row;
+	flex-grow: 0;
+	flex-wrap: wrap;
+	width: 100%;
+  padding-top: 5px;
+}
+.property-caption {
+	text-align: center;
+}
+.property-name {
+	flex-grow: 1;
+	width: 90px;
+  	overflow: hidden;
+  	white-space: nowrap;
+  	text-overflow: ellipsis;
+  	padding-right: 10px;
+  	font-weight: bold;
+}
+.property-value {
+	width: 170px;
+}
+/*************************
+Global
+*************************/
+.wrapper {
+}
+.control-block {
+	max-width: 500px;
+}
+.control-block input {
+	width: 90%;
+}
+#datetime-control {
+	margin-bottom: 5px;
+}
+.control-block-button {
+	flex-direction: row;
+	display: flex;
+  justify-content: flex-end;
+	align-items: flex-end;
+	margin: 10px 10px 20px auto;
+}
+#query-data {
+	display: flex;
+  justify-content: center;
+}
+#query-data button {
+	width: 300px;
+	font-size: 100%;
+	font-weight: normal;
+	letter-spacing: 1.5px;
+	padding: 5px 0;
+	margin: 10px auto;
+	color: #333;
+}
+
+/*************************
+Media Queries
+*************************/
+@media screen and (max-width: 800px) {
+	.astro-list1 {
+		flex-direction: column;
+	}
+	.wrapper {
+		margin: auto;
+	}
+	.astro-item {
+		margin-right: auto;
+	}
+}
+
+@media print {
+  .control-block {
+		display: none;
+	}
+	.wrapper {
+		margin: auto;
+	}
+
+	.astro-list-name {
+		margin-top: 20px;
+	}
+}
+}
