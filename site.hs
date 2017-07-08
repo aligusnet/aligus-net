@@ -57,12 +57,6 @@ main = hakyll $ do
         route $ constRoute "js/astro-port.js"
         compile copyFileCompiler
 
-    match (fromList ["about.rst"]) $ do
-        route   $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
-
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
@@ -79,7 +73,6 @@ main = hakyll $ do
                     constField "title" "Archives"                   `mappend`
                     field "tags" (\_ -> renderTagList tags)         `mappend`
                     defaultContext
-
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
@@ -101,8 +94,29 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" indexCtx
                 >>= relativizeUrls
 
+    match "projects/*" $ do
+        route $ setExtension "tmp"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/project.html" defaultContext
+            >>= relativizeUrls
+
+    match "projects.html" $ do
+        route idRoute
+        compile $ do
+            projects <- loadAll "projects/*"
+            let ctx =
+                    listField "projects" defaultContext (return projects) `mappend`
+                    defaultContext
+
+            getResourceBody
+                >>= applyAsTemplate ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= relativizeUrls
+
 
     match "astro.html" $ contentPage
+
+    -- match "projects.html" $ contentPage
 
     match "templates/*" $ compile templateBodyCompiler
 
