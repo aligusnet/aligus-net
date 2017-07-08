@@ -2,5 +2,11 @@
 Browse by tag: $tags$
 </p>
 
-Here you can find all my previous posts:
-$partial("templates/post-list.html")$
+<ul class="archive">
+    $for(posts)$
+        <li>
+            <a href="$url$">$title$</a> - $date$
+            $if(description)$<div>$description$</div>$endif$
+        </li>
+    $endfor$
+</ul>

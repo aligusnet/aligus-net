@@ -2,6 +2,7 @@
 title: Astronomical effects in Moonrise/Moonset calculations
 author: Alexander Ignatyev
 tags: astro, haskell
+description: Among the other visible celestial objects the Moon is one of the most difficult to calculate.
 ---
 Among the other visible celestial objects the Moon is one of the most difficult to calculate.
 

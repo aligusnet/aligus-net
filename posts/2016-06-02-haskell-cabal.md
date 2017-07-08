@@ -2,6 +2,7 @@
 title: The Haskell Cabal
 author: Alexander Ignatyev
 tags: haskell
+description: Cabal is a build and package manager for Haskell. It is considered as slightly outdated in modern Haskell development. Mostly because the new system called Stack has been introduced. But Stack uses Cabal under the hood and understanding of how Cabal works might be useful even if you use Stack for building and packaging.
 ---
 
 Cabal is a build and package manager for Haskell. It is considered as slightly outdated in modern Haskell development. Mostly because the new system called Stack has been introduced. But Stack uses Cabal under the hood and understanding of how Cabal works might be useful even if you use Stack for building and packaging.
