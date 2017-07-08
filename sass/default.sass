@@ -1,12 +1,10 @@
 @import "font-awesome/font-awesome"
 @import "pandoc-solarized"
+
+@import "colors"
 @import "astro"
 @import "archive"
-
-
-// colors
-$nav-font-color: #BBBBBB
-$nav-font-color-hover: #DDDDDD
+@import "project"
 
 // fonts
 $font-stack: 'Roboto', sans-serif
@@ -111,7 +109,7 @@ table
     border-collapse: collapse
 
 table, td, th
-    border: 1px solid #424242
+    border: 1px solid $dark-color
 
 @media screen and (max-width: 550px)
   header.global
