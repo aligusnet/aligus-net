@@ -7,7 +7,7 @@ import           Hakyll.Web.Sass (sassCompiler)
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith config $ do
     match "favicon.ico" $ do
         route   idRoute
         compile copyFileCompiler
@@ -97,7 +97,7 @@ main = hakyll $ do
     match "projects/*" $ do
         route $ setExtension "tmp"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/project.html" defaultContext
+            >>= loadAndApplyTemplate "templates/project.html" (projectCtx tags)
             >>= relativizeUrls
 
     match "projects.html" $ do
@@ -106,6 +106,7 @@ main = hakyll $ do
             projects <- loadAll "projects/*"
             let ctx =
                     listField "projects" defaultContext (return projects) `mappend`
+                    tagsField "tags" tags                                 `mappend`
                     defaultContext
 
             getResourceBody
@@ -124,7 +125,14 @@ main = hakyll $ do
 --------------------------------------------------------------------------------
 postCtx :: Tags -> Context String
 postCtx tags =
-    dateField "date" "%B %e, %Y" `mappend`
+    dateField "date" "%e %B %Y" `mappend`
+    tagsField "tags" tags       `mappend`
+    defaultContext
+
+
+--------------------------------------------------------------------------------
+projectCtx :: Tags -> Context String
+projectCtx tags =
     tagsField "tags" tags        `mappend`
     defaultContext
 
@@ -155,3 +163,10 @@ contentPage = do
             >>= applyAsTemplate ctx
             >>= loadAndApplyTemplate "templates/default.html" ctx
             >>= relativizeUrls
+
+
+--------------------------------------------------------------------------------
+config :: Configuration
+config = defaultConfiguration
+    { deployCommand = "aws s3 sync _site s3://aws-website-aligus-net-09yna --region us-east-1"
+    }

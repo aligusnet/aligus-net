@@ -2,6 +2,7 @@
 title: Astro
 description: Amateur astronomical computations
 github: https://github.com/Alexander-Ignatyev/astro
+tags: astro
 ---
 Amateur astronomical computations:
 rise and set times and azimuths, coordinates, distances,
