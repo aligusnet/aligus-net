@@ -1,6 +1,7 @@
 ---
 title: Rosa Rosa Rosam
 author: Ovidius
+tags: Ovidius, haskell
 ---
 
 Suspendisse pharetra ullamcorper sem et auctor. Suspendisse vitae tellus eu

@@ -16,6 +16,26 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+        -- Build tags
+    tags <- buildTags "posts/*" (fromCapture "tag/*.html")
+
+    -- Post tags
+    tagsRules tags $ \tag pattern -> do
+        let title = "Tag: " ++ tag
+        route idRoute
+        compile $ do
+            posts <- recentFirst =<< loadAll pattern
+            let ctx = constField "title" title                           `mappend`
+                      constField "blogid" "selected"                     `mappend`
+                      listField "posts" (postCtx tags) (return posts)    `mappend`
+                      field "tags" (\_ -> renderTagList tags)            `mappend`
+                      defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/archive.html" ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= relativizeUrls
+
+
     match "sass/default.sass" $ do
         route $ constRoute "css/default.css"
         let compressCssItem = fmap compressCss
@@ -46,8 +66,8 @@ main = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/post.html"    (postCtx tags)
+            >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
             >>= relativizeUrls
 
     create ["archive.html"] $ do
@@ -55,8 +75,9 @@ main = hakyll $ do
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
+                    listField "posts" (postCtx tags) (return posts) `mappend`
+                    constField "title" "Archives"                   `mappend`
+                    field "tags" (\_ -> renderTagList tags)         `mappend`
                     defaultContext
 
             makeItem ""
@@ -70,8 +91,9 @@ main = hakyll $ do
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Home"                `mappend`
+                    listField "posts" (postCtx tags) (return posts) `mappend`
+                    constField "title" "Home"                       `mappend`
+                    field "tags" (\_ -> renderTagList tags)         `mappend`
                     defaultContext
 
             getResourceBody
@@ -86,9 +108,10 @@ main = hakyll $ do
 
 
 --------------------------------------------------------------------------------
-postCtx :: Context String
-postCtx =
+postCtx :: Tags -> Context String
+postCtx tags =
     dateField "date" "%B %e, %Y" `mappend`
+    tagsField "tags" tags        `mappend`
     defaultContext
 
 
