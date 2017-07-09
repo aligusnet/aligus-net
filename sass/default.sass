@@ -1,3 +1,4 @@
+@import "reset"
 @import "font-awesome/font-awesome"
 @import "pandoc-solarized"
 
@@ -26,11 +27,53 @@ $global-max-width: 960px
   background: linear-gradient(to bottom, #686868 0%,#242424 100%) /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#686868', endColorstr='#242424',GradientType=0 ) /* IE6-9 */
 
+=match-parent
+  text-align: -webkit-match-parent
+  text-align: -moz-match-parent
+  text-align: match-parent
+
 body
   color: black
   font-size: 17px
   margin: 0px
   font-family: $font-stack
+
+h1
+  font-size: 24px
+  font-weight: 700
+  margin: 0.7em auto
+
+h2
+  font-size: 20px
+  font-weight: 700
+  margin: 0.83em auto
+
+h3
+  font-size: 16px
+  font-weight: 700
+
+ul
+  margin: 1em auto
+  list-style-type: disc
+  padding-left: 1em
+
+ol
+  margin: 1em auto
+  padding-left: 1em
+
+li
+  display: list-item
+  +match-parent
+
+p
+  margin: 1em auto
+
+a
+  color: $dark-color
+  text-decoration: none
+  border-bottom: 1px dashed
+  &:hover
+    border-bottom: 1px solid
 
 main
   width: $global-max-width
@@ -43,6 +86,14 @@ header.global
   color: white
   width: 100%
   margin: 0
+
+  a
+    color: $nav-font-color
+    text-decoration: none
+    border: none
+    font-size: 18px
+    &:hover
+      color: $nav-font-color-hover
 
   div.wrapper
     width: $global-max-width
@@ -59,25 +110,15 @@ header.global
     flex-direction: row
     text-align: right
     padding: 12px 0 12px 0
-
     a
-      color: $nav-font-color
-      font-size: 18px
       font-weight: bold
       margin-left: 12px
-      text-decoration: none
       text-transform: uppercase
-      &:hover
-        color: $nav-font-color-hover
 
   div.logo
     flex-grow: 2
     text-align: left
     padding: 12px 0px 12px 0
-    a
-      color: $nav-font-color
-      text-decoration: none
-      font-size: 18px
 
 footer
   border-top: solid 2px black
@@ -86,15 +127,6 @@ footer
   margin-top: 30px
   padding: 12px 24px 12px 0px
   text-align: center
-
-h1
-  font-size: 24px
-
-h2
-  font-size: 20px
-
-h3
-  font-size: 16px
 
 div.info
   color: #555
@@ -107,9 +139,14 @@ div.info
 
 table
     border-collapse: collapse
+    border-spacing: 2px
+
+th
+  font-weight: 700
 
 table, td, th
     border: 1px solid $dark-color
+    padding: 1px
 
 @media screen and (max-width: 550px)
   header.global
