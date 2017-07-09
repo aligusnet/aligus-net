@@ -85,7 +85,6 @@ main = hakyllWith config $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let indexCtx =
                     listField "posts" (postCtx tags) (return posts) `mappend`
-                    constField "title" "Home"                       `mappend`
                     field "tags" (\_ -> renderTagList tags)         `mappend`
                     defaultContext
 
