@@ -1,7 +1,7 @@
 ---
 title: Astro
 description: Amateur astronomical computations
-github: https://github.com/Alexander-Ignatyev/astro
+github: https://github.com/aligusnet/astro
 tags: astro
 ---
 Amateur astronomical computations:
