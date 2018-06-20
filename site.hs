@@ -16,7 +16,7 @@ main = hakyllWith config $ do
         route   idRoute
         compile copyFileCompiler
 
-        -- Build tags
+    -- Build tags
     tags <- buildTags "posts/*" (fromCapture "tag/*.html")
 
     -- Post tags
@@ -57,34 +57,24 @@ main = hakyllWith config $ do
         route $ constRoute "js/astro-port.js"
         compile copyFileCompiler
 
-    match "posts/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    (postCtx tags)
-            >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
-            >>= relativizeUrls
+    match "posts/*" $ postPage "templates/post.html" tags
 
-    create ["archive.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let archiveCtx =
-                    listField "posts" (postCtx tags) (return posts) `mappend`
-                    constField "title" "Archives"                   `mappend`
-                    field "tags" (\_ -> renderTagList tags)         `mappend`
-                    defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
+    create ["archive.html"] $ 
+        postListPage "Archive" "templates/archive.html" "posts/*" tags
 
+    match "tea-meetup/*" $ postPage "templates/tea-meetup.html" tags
+
+    create ["tea-meetup-history.html"] $ 
+        postListPage "Tea Meetup" "templates/tea-meetup-history.html" "tea-meetup/*" tags 
 
     match "index.html" $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
+            teameetups <- recentFirst =<< loadAll "tea-meetup/*"
             let indexCtx =
                     listField "posts" (postCtx tags) (return posts) `mappend`
+                    listField "tea-meetup" (postCtx tags) (return teameetups) `mappend`
                     field "tags" (\_ -> renderTagList tags)         `mappend`
                     defaultContext
 
@@ -163,6 +153,30 @@ contentPage = do
             >>= loadAndApplyTemplate "templates/default.html" ctx
             >>= relativizeUrls
 
+--------------------------------------------------------------------------------
+postPage :: Identifier -> Tags -> Rules()
+postPage template tags = do
+    route $ setExtension "html"
+    compile $ pandocCompiler
+        >>= loadAndApplyTemplate template                 (postCtx tags)
+        >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
+        >>= relativizeUrls
+
+--------------------------------------------------------------------------------
+postListPage :: String -> Identifier -> Pattern -> Tags -> Rules()
+postListPage name template path tags = do
+    route idRoute
+    compile $ do
+        posts <- recentFirst =<< loadAll path
+        let archiveCtx =
+                listField "posts" (postCtx tags) (return posts) `mappend`
+                constField "title" name                         `mappend`
+                field "tags" (\_ -> renderTagList tags)         `mappend`
+                defaultContext
+        makeItem ""
+            >>= loadAndApplyTemplate template                 archiveCtx
+            >>= loadAndApplyTemplate "templates/default.html" archiveCtx
+            >>= relativizeUrls
 
 --------------------------------------------------------------------------------
 config :: Configuration
