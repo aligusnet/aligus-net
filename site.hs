@@ -49,14 +49,6 @@ main = hakyllWith config $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "astro-ui/public/assets/js/elm.js" $ do
-        route $ constRoute "js/astro.js"
-        compile copyFileCompiler
-
-    match "astro-ui/public/assets/js/port.js" $ do
-        route $ constRoute "js/astro-port.js"
-        compile copyFileCompiler
-
     match "posts/*" $ postPage "templates/post.html" tags
 
     create ["archive.html"] $ 
@@ -106,7 +98,7 @@ main = hakyllWith config $ do
 
     match "astro.html" $ contentPage
 
-    -- match "projects.html" $ contentPage
+    match "stats.html" $ contentPage
 
     match "templates/*" $ compile templateBodyCompiler
 
