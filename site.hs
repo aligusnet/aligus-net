@@ -1,15 +1,25 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
-import           Hakyll.Web.Sass (sassCompiler)
-import           Hakyll.Contrib.LaTeX (compileFormulaeDataURI)
-import           Image.LaTeX.Render (defaultEnv)
-import           Image.LaTeX.Render.Pandoc (defaultPandocFormulaOptions)
+import Data.Monoid (mappend)
+import Hakyll
+import Hakyll.Web.Sass (sassCompiler)
+import Hakyll.Contrib.LaTeX (initFormulaCompilerDataURI)
+import Image.LaTeX.Render (defaultEnv)
+import Image.LaTeX.Render.Pandoc (PandocFormulaOptions, defaultPandocFormulaOptions)
+import Text.Pandoc.Definition (Pandoc)
+
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyllWith config $ do
+main = initFormulaCompilerDataURI 1000 defaultEnv >>= main'
+
+
+--------------------------------------------------------------------------------
+main' :: (PandocFormulaOptions -> Pandoc -> Compiler Pandoc) -> IO ()
+main' renderFormulae = hakyllWith config $ do
+    let compiler = pandocCompilerWithTransformM defaultHakyllReaderOptions defaultHakyllWriterOptions
+                 $ renderFormulae defaultPandocFormulaOptions
+
     match "favicon.ico" $ do
         route   idRoute
         compile copyFileCompiler
@@ -51,12 +61,12 @@ main = hakyllWith config $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "posts/*" $ postPage "templates/post.html" tags
+    match "posts/*" $ postPage compiler "templates/post.html" tags
 
     create ["archive.html"] $ 
         postListPage "Archive" "templates/archive.html" "posts/*" tags
 
-    match "tea-meetup/*" $ postPage "templates/tea-meetup.html" tags
+    match "tea-meetup/*" $ postPage compiler "templates/tea-meetup.html" tags
 
     create ["tea-meetup-history.html"] $ 
         postListPage "Tea Meetup" "templates/tea-meetup-history.html" "tea-meetup/*" tags 
@@ -148,15 +158,14 @@ contentPage = do
             >>= relativizeUrls
 
 --------------------------------------------------------------------------------
-postPage :: Identifier -> Tags -> Rules()
-postPage template tags = do
-    let compiler = pandocCompilerWithTransformM defaultHakyllReaderOptions defaultHakyllWriterOptions
-                 $ compileFormulaeDataURI defaultEnv defaultPandocFormulaOptions
+postPage :: Compiler (Item String) -> Identifier -> Tags -> Rules()
+postPage compiler template tags = do
     route $ setExtension "html"
     compile $ compiler
         >>= loadAndApplyTemplate template                 (postCtx tags)
         >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
         >>= relativizeUrls
+
 
 --------------------------------------------------------------------------------
 postListPage :: String -> Identifier -> Pattern -> Tags -> Rules()
@@ -173,6 +182,7 @@ postListPage name template path tags = do
             >>= loadAndApplyTemplate template                 archiveCtx
             >>= loadAndApplyTemplate "templates/default.html" archiveCtx
             >>= relativizeUrls
+
 
 --------------------------------------------------------------------------------
 config :: Configuration

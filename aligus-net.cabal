@@ -11,5 +11,6 @@ executable site
                   , latex-formulae-hakyll
                   , latex-formulae-pandoc
                   , latex-formulae-image
+                  , pandoc-types
   ghc-options:      -threaded
   default-language: Haskell2010
