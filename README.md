@@ -1,10 +1,22 @@
 # www.aligus.net
 
-## Build
+## Requirements
 
+
+### Latex
+e.g. MacTeX: http://www.tug.org/mactex/
+
+### ImageMagick's convert
 
 ```bash
-make  # to build Elm dependencies
+sudo port install ImageMagick
+```
+
+## Build
+
++* required to use `--recursive` to git clone because it contains git submodules
+
+```bash
 stack build
 stack exec site watch
 ```

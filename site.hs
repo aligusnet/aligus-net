@@ -3,7 +3,9 @@
 import           Data.Monoid (mappend)
 import           Hakyll
 import           Hakyll.Web.Sass (sassCompiler)
-
+import           Hakyll.Contrib.LaTeX (compileFormulaeDataURI)
+import           Image.LaTeX.Render (defaultEnv)
+import           Image.LaTeX.Render.Pandoc (defaultPandocFormulaOptions)
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -148,8 +150,10 @@ contentPage = do
 --------------------------------------------------------------------------------
 postPage :: Identifier -> Tags -> Rules()
 postPage template tags = do
+    let compiler = pandocCompilerWithTransformM defaultHakyllReaderOptions defaultHakyllWriterOptions
+                 $ compileFormulaeDataURI defaultEnv defaultPandocFormulaOptions
     route $ setExtension "html"
-    compile $ pandocCompiler
+    compile $ compiler
         >>= loadAndApplyTemplate template                 (postCtx tags)
         >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
         >>= relativizeUrls

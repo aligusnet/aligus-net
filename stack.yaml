@@ -37,6 +37,11 @@ resolver: lts-11.13
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - '.'
+- latex-formulae/latex-formulae-hakyll
+- latex-formulae/latex-formulae-image
+- latex-formulae/latex-formulae-pandoc
+
+
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps: [hakyll-sass-0.2.3]
