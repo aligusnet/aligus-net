@@ -112,6 +112,8 @@ main' renderFormulae = hakyllWith config $ do
 
     match "stats.html" $ contentPage
 
+    match "game-of-life.html" $ contentPage
+
     match "templates/*" $ compile templateBodyCompiler
 
 

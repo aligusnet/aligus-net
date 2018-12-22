@@ -1,0 +1,81 @@
+/*************************
+Global
+*************************/
+
+.game-of-life {
+    max-width: 600px;
+}
+
+.game-of-life .universe-select {
+    width: 100%;
+}
+
+/*************************
+Panels
+*************************/
+
+.game-of-life .panel {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    padding-top: 5px;
+}
+
+.game-of-life .panel-label {
+    width: 90px;
+    overflow: hidden;
+    white-space: initial;
+    text-overflow: hidden;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.game-of-life .panel-input {
+    width: 170px;
+}
+
+.game-of-life .panel-value {
+    width: 100px;
+}
+
+/*************************
+Control Panel
+*************************/
+
+.game-of-life .control-panel {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.game-of-life .control-panel button {
+    margin-right: 5px
+}
+
+/*************************
+Universe
+*************************/
+
+
+.game-of-life .universe svg {
+    background-color: LightSteelBlue;
+    width: 100%;
+}
+
+.game-of-life .universe g {
+    color: #1f77b4;
+}
+
+
+/*************************
+Media Queries
+*************************/
+
+@media screen and (max-width: 800px) {
+    .wrapper-game-of-life {
+        margin: auto;
+    }
+    .astro-item {
+        margin-right: auto;
+    }
+}
