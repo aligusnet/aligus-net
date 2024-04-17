@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI - {{ .Title }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    {{- with resources.Get "sass/default.sass" -}}
+    {{- $opts := dict "transpiler" "libsass" "targetPath" "css/default.css" -}}
+    {{- with . | toCSS $opts -}}
+    {{- if hugo.IsDevelopment -}}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else -}}
+    {{- with . | minify | fingerprint -}}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end -}}
+    {{- end -}}
+    {{- end -}}
+    {{- end -}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {{- range .Params.scripts -}}
+    <script src="{{ . }}"></script>
+    {{- end -}}
+</head>
+
+<body>
+    <header class="global">
+        <div class="wrapper">
+            <div class="logo"><a href="/">AI</a></div>
+            {{ partial "menu.html" . }}
+        </div>
+    </header>
+
+    <main>
+        {{ block "main" .}}
+        <h1> {{ .Title }} </h1>
+        {{ .Content }}
+        {{ end }}
+    </main>
+
+    <footer>
+        <i class="fa fa-copyright" aria-hidden="true"></i> 2017-{{ now.Format "2006" }} Alexander Ignatyev
+    </footer>
+
+    <script src="/js/scripts.js"></script>
+</body>
+
+</html>

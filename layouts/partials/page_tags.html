@@ -1,0 +1,12 @@
+{{- if .Params.tags }}
+{{- $first := true -}}
+{{- $tags := .Params.tags -}}
+{{- range $name := $tags -}}
+{{- if $first -}} {{- $first = false -}} {{- else -}},&nbsp;{{- end -}}
+{{- with $.Site.GetPage (printf "/tags/%s" $name) -}}
+<a href="{{ .RelPermalink }}" title="{{ .Title }}">{{- .Title -}}</a>
+{{- else -}}
+{{- $name -}}
+{{- end }}
+{{- end }}
+{{- end }}

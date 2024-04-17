@@ -1,0 +1,20 @@
+{{ define "main" }}
+<h1> {{ .Title }} </h1>
+{{ if .Params.showTags }}
+<p>
+    Browse by tag: {{ partial "site_tags.html" . }}.
+</p>
+{{ end }}
+
+<ul class="archive">
+    {{ range .Paginator.Pages }}
+    <li>
+        <a href="{{ .RelPermalink }}"> {{ .Title }}</a> - {{ .Date.Format .Site.Params.dateFormat }}
+        <div>{{ .Summary }}</div>
+    </li>
+    {{ end }}
+</ul>
+
+{{ partial "pagination.html" . }}
+
+{{ end }}

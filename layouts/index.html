@@ -1,0 +1,32 @@
+{{ define "main" }}
+{{ .Content }}
+
+{{- $pageSize := 5 -}}
+
+<h2>List of my recent posts</h2>
+<ul>
+    {{ range first $pageSize (where .Site.RegularPages "Type" "posts") }}
+    <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a> - {{ .Date.Format .Site.Params.dateFormat }}
+    </li>
+    {{ end }}
+</ul>
+
+{{- with .Site.GetPage "/posts" -}}
+<p>…or you can find more in the <a href="{{ .RelPermalink }}">{{ .Title }}</a>.</p>
+{{- end -}}
+
+<p>
+    Browse by tag: {{ partial "site_tags.html" . }}.
+</p>
+
+<h2>Tea Meetup</h2>
+<ul>
+    {{ range first $pageSize (where .Site.RegularPages "Type" "tea-meetup") }}
+    <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a> - {{ .Date.Format .Site.Params.dateFormat }}
+    </li>
+    {{ end }}
+</ul>
+
+{{ end }}

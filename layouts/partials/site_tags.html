@@ -1,0 +1,8 @@
+{{- $tags := .Site.Taxonomies.tags }}
+{{- $first := true -}}
+{{- range $name, $taxonomy := $tags -}}
+{{- with $.Site.GetPage (printf "/tags/%s" $name) -}}
+{{- if $first -}} {{- $first = false -}} {{- else -}},&nbsp;{{- end -}}
+<a href="{{ .RelPermalink }}" title="{{ .Title }}">{{- .Title -}}({{- $taxonomy.Count -}})</a>
+{{- end -}}
+{{- end }}

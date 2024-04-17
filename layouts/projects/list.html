@@ -1,0 +1,16 @@
+{{ define "main" }}
+<h1> {{ .Title }} </h1>
+<div class="project-list">
+    {{ range .Pages }}
+    <section>
+        <h2>{{ .Title }}</h2>
+        <h3>{{ .Summary }}</h3>
+        {{ .Content }}
+        {{ if .Params.tags }}
+        <p>Related tags: {{ partial "page_tags.html" . }}.</p>
+        {{ end }}
+        <p>Source code: <a href="{{ .Params.github }}">github</a>.</p>
+    </section>
+    {{ end }}
+</div>
+{{ end }}

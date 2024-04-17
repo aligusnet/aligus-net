@@ -2,21 +2,17 @@
 
 ## Requirements
 
+hugo_extended [latest version](https://github.com/gohugoio/hugo/releases/tag/v0.125.0) or at least [0.124.1](https://github.com/gohugoio/hugo/releases/tag/v0.124.1)
 
-### Latex
-e.g. MacTeX: http://www.tug.org/mactex/
+## build
 
-### ImageMagick's convert
+Start Hugo’s development server to view the site: 
 
-```bash
-sudo port install ImageMagick
+```
+hugo server
 ```
 
-## Build
-
-+* required to use `--recursive` to git clone because it contains git submodules
-
-```bash
-stack build
-stack exec site watch
+Production build:
+```
+hugo
 ```

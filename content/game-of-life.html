@@ -1,0 +1,16 @@
+---
+title: Conway's Game of Life
+scripts: [https://www.aligus.net/cdn/libs/game-of-life/1.0.0/game-of-life.min.js]
+menus: {main: {name: "Game of Life"}}
+type: miscellaneous
+weight: 7
+aliases: ['game-of-life.html']
+---
+<div class="game-of-life">
+    <div id="elm"></div>
+    <script>
+        let app = Elm.Main.init({
+            node: document.getElementById('elm')
+        });
+    </script>
+</div>

@@ -1,0 +1,17 @@
+{{ define "main" }}
+
+<h1>{{ .Title }}</h1>
+<div class="info">
+    Posted on {{ .Date.Format .Site.Params.dateFormat }}
+    {{ with .Params.author }}
+    by {{ . }}
+    {{ end }}
+</div>
+
+{{ .Content }}
+
+{{if .Params.tags }}
+<div class="tags">Tags: {{ partial "page_tags.html" . }}.</div>
+{{ end }}
+
+{{ end }}

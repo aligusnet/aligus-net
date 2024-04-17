@@ -1,0 +1,17 @@
+{{- if .Site.Menus.main -}}
+<nav>
+	<div class="mobile-menu-icon fa fa-bars fa-lg"></div>
+	{{ $currentNode := . -}}
+	{{- range .Site.Menus.main -}}
+	{{- if .Name -}}
+	<div>
+		<a href="{{ .URL }}">
+			{{- .Pre -}}
+			<span>{{ .Name }}</span>
+			{{- .Post -}}
+		</a>
+	</div>
+	{{ end -}}
+	{{- end -}}
+</nav>
+{{- end -}}

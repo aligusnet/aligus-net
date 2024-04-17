@@ -1,0 +1,14 @@
+baseURL = 'https://www.aligus.net/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+paginate = 10
+
+[markup]
+  [markup.highlight]
+    style = 'friendly'
+
+[params]
+  dateFormat = '2 January 2006'
+
+[taxonomies]
+  tag = 'tags'
