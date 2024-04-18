@@ -1,6 +1,6 @@
 baseURL = 'https://www.aligus.net/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'aligus.net'
 paginate = 10
 
 [markup]
